@@ -45,6 +45,10 @@ endfunction
 function! s:Path.cacheDisplayString() abort
     let self.cachedDisplayString = self.getLastPathComponent(1)
 
+    if !self.isDirectory
+        let self.cachedDisplayString = self.cachedDisplayString . ' (' . self.loc . ')'
+    endif
+
     if self.isExecutable
         let self.cachedDisplayString = self.cachedDisplayString . '*'
     endif
@@ -616,6 +620,13 @@ function! s:Path.readInfoFromDisk(fullpath)
     let self.isExecutable = 0
     if !self.isDirectory
         let self.isExecutable = getfperm(a:fullpath) =~# 'x'
+    endif
+
+    " add loc info
+    let self.loc = 0
+    if !self.isDirectory
+        let loc = system('wc -l ' . a:fullpath)
+        let self.loc = split(loc)[0]
     endif
 
     "grab the last part of the path (minus the trailing slash)

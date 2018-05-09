@@ -371,6 +371,9 @@ function! s:UI._stripMarkup(line)
     " remove the tree parts and the leading space
     let line = substitute (line, g:NERDTreeUI.MarkupReg(),"","")
 
+    " strip off loc flags
+    let line = substitute (line, ' ([0-9]\+)', "","")
+
     " strip off any read only flag
     let line = substitute (line, ' \['.g:NERDTreeGlyphReadOnly.'\]', "","")
 
