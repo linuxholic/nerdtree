@@ -408,9 +408,9 @@ function! s:Path.getSortKey()
             let path = tolower(path)
         endif
         if !g:NERDTreeNaturalSort
-            let self._sortKey = [self.getSortOrderIndex(), path]
+            let self._sortKey = [self.getSortOrderIndex(), str2nr(self.loc), path]
         else
-            let self._sortKey = [self.getSortOrderIndex()] + self._splitChunks(path)
+            let self._sortKey = [self.getSortOrderIndex(), str2nr(self.loc)] + self._splitChunks(path)
         endif
     endif
 

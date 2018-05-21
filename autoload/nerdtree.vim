@@ -68,14 +68,22 @@ function! nerdtree#compareNodesBySortKey(n1, n2)
         " If chunks have different type, the one which has
         " integer type is the lesser.
         if type(sortKey1[i]) == type(sortKey2[i])
-            if sortKey1[i] <# sortKey2[i]
-                return - 1
-            elseif sortKey1[i] ># sortKey2[i]
-                return 1
+            if type(sortKey1[i]) == type(0)
+                if sortKey1[i] < sortKey2[i]
+                    return - 1
+                elseif sortKey1[i] > sortKey2[i]
+                    return 1
+                endif
+            else
+                if sortKey1[i] <# sortKey2[i]
+                    return - 1
+                elseif sortKey1[i] ># sortKey2[i]
+                    return 1
+                endif
             endif
-        elseif sortKey1[i] == type(0)
+        elseif type(sortKey1[i]) == type(0)
             return -1
-        elseif sortKey2[i] == type(0)
+        elseif type(sortKey2[i]) == type(0)
             return 1
         endif
         let i = i + 1
