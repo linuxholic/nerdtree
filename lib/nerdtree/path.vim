@@ -45,7 +45,7 @@ endfunction
 function! s:Path.cacheDisplayString() abort
     let self.cachedDisplayString = self.getLastPathComponent(1)
 
-    if !self.isDirectory
+    if !self.isDirectory && !self.isExecutable
         let self.cachedDisplayString = self.cachedDisplayString . ' (' . self.loc . ')'
     endif
 
@@ -624,7 +624,7 @@ function! s:Path.readInfoFromDisk(fullpath)
 
     " add loc info
     let self.loc = 0
-    if !self.isDirectory
+    if !self.isDirectory && !self.isExecutable
         let loc = system('wc -l ' . a:fullpath)
         let self.loc = split(loc)[0]
     endif
